@@ -1,0 +1,14 @@
+<h1>TaskBoard</h1>
+<input id=t><button onclick=add()>Add</button><ul id=l></ul>
+<script>
+async function load(){
+  const r = await fetch('/api/tasks'); const d = await r.json();
+  l.innerHTML = '';
+  d.forEach(x => { const li = document.createElement('li'); li.textContent = x.title; l.appendChild(li); });
+}
+async function add(){
+  await fetch('/api/tasks', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({title: t.value})});
+  t.value = ''; load();
+}
+load();
+</script>
